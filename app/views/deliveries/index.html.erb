@@ -40,11 +40,11 @@
         <textarea id="details_box" name="query_details" rows="3"></textarea>
       </div>
 
-        <label for="user_id">
-    
-        </label>
+      <label for="user_id">
 
-        <input type="hidden" id="user_id" name="query_user_id" value="<%= current_user.id %>">  
+      </label>
+
+      <input type="hidden" id="user_id" name="query_user_id" value="<%= current_user.id %>">
 
       <button>
         Log delivery
@@ -56,12 +56,33 @@
 <hr>
 
 <h2>Waiting on</h2>
+
 <ul>
-  <li>
-    <div>
-      <p>Intelligent Marble Gloves</p>
-      <p>Supposed to arrive on 2024-01-28</p>
-      <p>UPS tracking</p>
-    </div>
-  </li>
+  <% @list_of_deliveries.each do |delivery| %>
+
+    <% if delivery.arrived != true %>
+      <li>
+        <p><%= delivery.description %></p>
+        <p>Supposed to arrive on <%= delivery.supposed_to_arrive_on %></p>
+        <p><%= delivery.details %></p>
+        <button>Mark as received</button>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+
+<hr>
+
+<h2>Recieved</h2>
+
+<ul>
+  <% @list_of_deliveries.each do |delivery| %>
+
+    <% if delivery.arrived == true %>
+      <li>
+        <p><%= delivery.description %></p>
+        <p>Updated <%= delivery.time %> ago <a href="">Delete</a> </p>
+      </li>
+    <% end %>
+  <% end %>
 </ul>

@@ -13,4 +13,11 @@
 #  user_id               :integer
 #
 class Delivery < ApplicationRecord
+  def time
+    current_time = Time.now
+    updated_time = self.updated_at
+    time_difference_seconds = current_time - updated_time
+    time_difference_minutes = time_difference_seconds / 60
+    time_difference_minutes
+  end
 end
