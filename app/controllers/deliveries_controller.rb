@@ -23,6 +23,7 @@ class DeliveriesController < ApplicationController
     the_delivery.arrival = params.fetch("query_arrival")
     the_delivery.details = params.fetch("query_details")
     the_delivery.user_id = params.fetch("query_user_id")
+    the_delivery.supposed_to_arrive_on = params.fetch("query_arrival")
 
     if the_delivery.valid?
       the_delivery.save
@@ -45,6 +46,20 @@ class DeliveriesController < ApplicationController
       redirect_to("/deliveries/#{the_delivery.id}", { :notice => "Delivery updated successfully."} )
     else
       redirect_to("/deliveries/#{the_delivery.id}", { :alert => the_delivery.errors.full_messages.to_sentence })
+    end
+  end
+
+  def received
+    the_id = params.fetch("path_id")
+    the_delivery = Delivery.where({ :id => the_id }).at(0)
+
+    the_delivery.arrived = true
+
+    if the_delivery.valid?
+      the_delivery.save
+      redirect_to("/deliveries", { :notice => "Marked as received."} )
+    else
+      redirect_to("/deliveries", { :alert => the_delivery.errors.full_messages.to_sentence })
     end
   end
 

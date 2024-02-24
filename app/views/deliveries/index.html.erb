@@ -65,7 +65,9 @@
         <p><%= delivery.description %></p>
         <p>Supposed to arrive on <%= delivery.supposed_to_arrive_on %></p>
         <p><%= delivery.details %></p>
-        <button>Mark as received</button>
+        <form action="/received_delivery/<%= delivery.id %>" method="post">
+          <button type="submit">Mark as received</button>
+        </form>
       </li>
     <% end %>
   <% end %>
