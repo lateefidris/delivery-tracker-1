@@ -1,4 +1,7 @@
 <div>
+  <% if flash[:notice] %>
+    <div><%= flash[:notice] %></div>
+  <% end %>
   <div>
     <h1>
       Delivery Tracker
@@ -55,36 +58,39 @@
 
 <hr>
 
-<h2>Waiting on</h2>
+<div class="waiting_on">
+  <h2>Waiting on</h2>
 
-<ul>
-  <% @list_of_deliveries.each do |delivery| %>
+  <ul>
+    <% @list_of_deliveries.each do |delivery| %>
 
-    <% if delivery.arrived != true %>
-      <li>
-        <p><%= delivery.description %></p>
-        <p>Supposed to arrive on <%= delivery.supposed_to_arrive_on %></p>
-        <p><%= delivery.details %></p>
-        <form action="/received_delivery/<%= delivery.id %>" method="post">
-          <button type="submit">Mark as received</button>
-        </form>
-      </li>
+      <% if delivery.arrived != true %>
+        <li>
+          <p><%= delivery.description %></p>
+          <p>Supposed to arrive on <%= delivery.supposed_to_arrive_on %></p>
+          <p><%= delivery.details %></p>
+          <form action="/received_delivery/<%= delivery.id %>" method="post">
+            <button type="submit">Mark as received</button>
+          </form>
+        </li>
+      <% end %>
     <% end %>
-  <% end %>
-</ul>
+  </ul>
 
+</div>
 <hr>
+<div class="received">
+  <h2>Received</h2>
 
-<h2>Recieved</h2>
+  <ul>
+    <% @list_of_deliveries.each do |delivery| %>
 
-<ul>
-  <% @list_of_deliveries.each do |delivery| %>
-
-    <% if delivery.arrived == true %>
-      <li>
-        <p><%= delivery.description %></p>
-        <p>Updated <%= delivery.time %> ago <a href="">Delete</a> </p>
-      </li>
+      <% if delivery.arrived == true %>
+        <li>
+          <p><%= delivery.description %></p>
+          <p>Updated <%= delivery.time %> ago <a href="/delete_delivery/<%= delivery.id %>">Delete</a> </p>
+        </li>
+      <% end %>
     <% end %>
-  <% end %>
-</ul>
+  </ul>
+</div>
